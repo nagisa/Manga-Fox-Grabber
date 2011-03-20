@@ -1,0 +1,8 @@
+1. Get your manga link, for example: http://www.mangafox.com/manga/koe_de_oshigoto/
+2. Extract series name from that link: koe_de_oshigoto
+3. Paste it into field in application.
+4. Change anything else, you want (thread number, page size)
+5. Press "Check". Wait.
+5.1. If application reports error, check, if you done everything correctly. Else press "Download".
+6. Wait for manga download to complete.
+7. You will find it in koe_de_oshigoto folder, that will appear in same place where application is.
