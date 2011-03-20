@@ -212,14 +212,14 @@ class StepTwoContainer(Thread):
         return False
 
     def run(self):
-        self.thrds = []
+        thrds = []
         for link in self.links:
             while activeCount() >= interface.maxThreads:
                 time.sleep(0.1)
             step = StepTwo(link)
-            self.thrds.append(step)
+            thrds.append(step)
             step.start()
-        for thrd in self.thrds:
+        for thrd in thrds:
             thrd.join()
         for dire in interface.temps:
             shutil.rmtree(dire)
