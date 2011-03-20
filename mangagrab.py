@@ -19,7 +19,7 @@ class MainWindow(gtk.Window):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.checked = False
-        self.connect("destroy", gtk.main_quit)
+        self.connect("destroy", self.do_exit)
         self.set_size_request(400, 150)
         self.set_position(gtk.WIN_POS_CENTER)
         self.set_title('MangaFox Grabber')
@@ -141,6 +141,9 @@ class MainWindow(gtk.Window):
         except:
             return 'Unknown'
 
+    def do_exit(self, widget):
+        os._exit(0)
+
 
 class URLLister(SGMLParser):
 
@@ -209,14 +212,14 @@ class StepTwoContainer(Thread):
         return False
 
     def run(self):
-        thrds = []
+        self.thrds = []
         for link in self.links:
             while activeCount() >= interface.maxThreads:
                 time.sleep(0.1)
             step = StepTwo(link)
-            thrds.append(step)
+            self.thrds.append(step)
             step.start()
-        for thrd in thrds:
+        for thrd in self.thrds:
             thrd.join()
         for dire in interface.temps:
             shutil.rmtree(dire)
@@ -241,7 +244,6 @@ class StepTwo(Thread):
         return False
 
     def run(self):
-
         linkbundle = self.link.split('/')[-3:][:2]
         if linkbundle[0] == interface.series:
             linkbundle[0] = '/'
