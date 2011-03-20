@@ -5,3 +5,11 @@ MangaFoxGrabber does these things:
 
 You can use those PDF's for reading in something like Kindle,
 if you like(that's exactly what I do).
+
+Other Dependencies:
+*pygtk
+$ sudo apt-get install python-gtk2
+=========================
+reportlab
+$ sudo easy_install reportlab
+=========================

@@ -23,7 +23,10 @@ class MainWindow(gtk.Window):
         self.set_size_request(400, 150)
         self.set_position(gtk.WIN_POS_CENTER)
         self.set_title('MangaFox Grabber')
-        self.set_icon_from_file('logo.png')
+        try:
+            self.set_icon_from_file('logo.png')
+        except:
+            pass
 
         halign = {}
         vbox = gtk.VBox(False, 2)
@@ -71,40 +74,28 @@ class MainWindow(gtk.Window):
         self.show_all()
 
     def on_continue(self, widget):
-        ###
         ##Block buttons
-        ###
         self.button.set_sensitive(False)
-        ###
         ##Do Step 2 if done.
-        ###
         if self.checked:
             self.progress.set_fraction(0)
             step = StepTwoContainer(self.links)
             step.start()
             return True
-        ###
         ##Set URL fetching thingy.
-        ###
         self.headers = {'User-Agent': 'Mozilla/5.0 (X11; U; Linux i686; en-US) AppleWebKit/534.13 (KHTML, like Gecko) Chrome/9.0.597.98 Safari/534.13'}
         self.urllib = urlencode({'name': 'Grabber', 'location': 'Hell', 'language': 'Python', 'port': 80, 'timeout': 10})
         self.regex = re.compile('http://[a-zA-Z0-9.-_]*/store/manga/[0-9]*/[0-9-.]*/compressed/[a-zA-Z0-9._-]*.jpg')
-        ###
         ##Set application cache
-        ###
         self.links = []
         self.images = {}
         self.temps = []
         self.seriesLen = 0
-        ###
         ##Set some healthy variables
-        ###
         self.currentDir = os.getcwd()
         self.force = False
         self.completed = 0
-        ###
         ##Get user input
-        ###
         self.series = self.entry.get_text()
         self.maxThreads = self.get_threads()
         self.psize = self.get_psize()
@@ -113,7 +104,7 @@ class MainWindow(gtk.Window):
 
     def on_help(self, widget):
         from webbrowser import open as webopen
-        webopen('http://code.google.com/p/mangafox-grab/')
+        webopen('https://github.com/simukis/Manga-Fox-Grabber/blob/master/HOWTO')
 
     def get_threads(self):
         active = self.threads.get_active()
