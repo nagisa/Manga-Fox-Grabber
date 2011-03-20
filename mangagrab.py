@@ -314,7 +314,7 @@ class StepTwo(Thread):
         maxh = interface.psize[1]-20
         maxw = interface.psize[0]-30
         title=' '.join(interface.series.split('_'))
-        c.title=title+linkbundle[1]
+        c.title=title+' '+linkbundle[1]
         c.author=interface.author
         directory=os.path.join(interface.series, linkbundle[1])
         images=sorted(os.listdir(directory))
