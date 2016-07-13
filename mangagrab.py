@@ -11,6 +11,8 @@ import os
 from reportlab.platypus import SimpleDocTemplate, Image
 import Image as PImage
 import shutil
+import gzip
+from StringIO import StringIO
 threads_init()
 
 
@@ -261,11 +263,16 @@ class StepTwo(Thread):
             ##Completed that chapter!
         idle_add(self.update_status, None, 'Start reading chapter '+linkbundle[1].strip('c'))
         for page in range(1, 1000):
-            url = 'http://www.mangafox.com/manga/'+interface.series+linkbundle[0]+linkbundle[1]+'/'+str(page)+'.html'
+            url = 'http://mangafox.me/manga/'+interface.series+linkbundle[0]+linkbundle[1]+'/'+str(page)+'.html'
             request = urllib2.Request(url, interface.urllib, interface.headers)
             try:
-                content = urllib2.urlopen(request).read()
-            except:
+                response = urllib2.urlopen(request)
+                content = response.read()
+                if response.info().get('Content-Encoding') == 'gzip':
+                    content = gzip.GzipFile(fileobj=StringIO(content)).read()
+            except Exception as e:
+                print 'Could not get html for chapter '+linkbundle[1]+' page '+str(page)
+                print 'Exception: {0}'.format(e)
                 continue
             try:
                 image=interface.regex.search(content).group(0)
